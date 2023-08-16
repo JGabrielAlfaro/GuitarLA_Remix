@@ -28,11 +28,12 @@ root {
     width: min(95%, 120rem);
     margin: 3rem auto;
   }
+
   [class*="heading"] {
     font-size: 4rem;
     text-align: center;
     font-weight: 900;
-    color: var(--primary);
+    color: #e99401;
     margin: 5rem 0;
   }
 
@@ -66,9 +67,14 @@ root {
 
   .header .navegacion {
     display: flex;
+    align-items: center;
     gap: 2rem;
     margin-top: 5rem;
   }
+  .header .navegacion img {
+    width: 3rem;
+  }
+
 
   @media (min-width: 768px){
     .header .navegacion {
@@ -131,7 +137,9 @@ root {
     text-decoration: none;
 
   }
-
+  .footer .navegacion a:last-of-type {
+    display: none
+  }
   .footer .copyright{
     text-align: center;
   }

@@ -25,6 +25,7 @@ export function links() {
   ]
 }
 const Nosotros = () => {
+
   return (
     <main className="contenedor nosotros">
       <h2 className="heading">Nosotros</h2>

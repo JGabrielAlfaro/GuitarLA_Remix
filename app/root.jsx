@@ -1,4 +1,5 @@
 
+import { useState,useEffect } from "react"
 import {
     Meta,
     Links,
@@ -55,9 +56,64 @@ export function links(){
     
 }
 export default function App  () {
+
+    //Si el código es del navegador agrega localStorage, si es del servidor pone un null.
+    const carritoLS = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem("carrito")) ?? [] : null; 
+    const [carrito,setCarrito]=useState(carritoLS);
+
+    useEffect(()=>{
+        localStorage.setItem('carrito', JSON.stringify(carrito) )
+    },[carrito])
+
+    const agregarCarrito = (guitarra) =>{
+
+        //validamos que existe un carrito igual por el id.
+        if (carrito.some(guitarraState => guitarraState.id === guitarra.id)){
+
+            //iterar sobre el arreglo e identificar el elemento duplicado.
+            const carritoActualizado = carrito.map (guitarraState => {
+                if (guitarraState.id === guitarra.id){
+                    //Reescribir la cantidad.
+                    guitarraState.cantidad = guitarra.cantidad
+                }
+                return guitarraState;
+            })
+            //Añadir al carrito y sobre-escribirlo totalmente.
+            setCarrito(carritoActualizado)
+
+        }else {
+
+            //Registro nuevo y agregar al carrito.
+            setCarrito([...carrito,guitarra])
+
+        }
+
+    }
+
+    const actualizarCantidad = guitarra => {
+    const carritoActualizado = carrito.map ( guitarraState => {
+        if (guitarraState.id === guitarra.id){
+            guitarraState.cantidad= guitarra.cantidad
+        }
+        return guitarraState;
+    })
+    setCarrito(carritoActualizado)
+    }
+
+    const eliminarGuitarra = id => {
+        setCarrito(carrito.filter( guitarraState => guitarraState.id !== id))
+    }
+
   return (
     <Document>
-      <Outlet/>
+      <Outlet
+        context={{
+           agregarCarrito,
+           carrito,
+           actualizarCantidad,
+           eliminarGuitarra
+        }}
+      />
     </Document>
   )
 }
